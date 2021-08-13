@@ -25,6 +25,9 @@ public class KafkaTaskProvider {
     private KafkaConsumerResource<String, String> consumer(Optional<String> clusterName){
         return this.resourceProvider.kafkaStringConsumerResource(clusterName);
     }
+//    private KafkaConsumerResource<String, String> avroConsumer(Optional<String> clusterName){
+//        return this.resourceProvider.kafkaAvroConsumerResource(clusterName);
+//    }
 
     private KafkaProducerResource<String, String> producer(Optional<String> clusterName){
         return this.resourceProvider.kafkaStringProducerResource(clusterName);
@@ -41,6 +44,10 @@ public class KafkaTaskProvider {
     private KafkaResourcePair<KafkaAdminResource, KafkaConsumerResource<String,String>> adminAndConsumer(Optional<String> clusterName){
         return this.resourceProvider.kafkaAdminAndConsumer(clusterName);
     }
+
+//    private KafkaResourcePair<KafkaAdminResource, KafkaAvroConsumerResource> adminAndAvroConsumer(Optional<String> clusterName){
+//        return this.resourceProvider.kafkaAdminAndAvroConsumer(clusterName);
+//    }
 
     public BasicConsumeMessages basicConsumeMessages(ConsumerRequest input){
         return new BasicConsumeMessages(consumer(input.clusterName()), input);
@@ -93,6 +100,10 @@ public class KafkaTaskProvider {
     public ContinuousConsumeMessages continousConsumeMessages(AbstractConsumerRequest request) {
         return new ContinuousConsumeMessages(consumer(request.clusterName()), request);
     }
+
+//    public ContinuousConsumeMessages continousConsumeAvroMessages(AbstractConsumerRequest request) {
+//        return new ContinuousConsumeMessages(consumer(request.clusterName()), request);
+//    }
 
     public DeleteTopic deleteTopic(String topic, Optional<String> bootstrapServers) {
         return new DeleteTopic(admin(bootstrapServers), topic);

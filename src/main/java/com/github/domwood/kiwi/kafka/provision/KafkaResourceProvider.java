@@ -2,8 +2,6 @@ package com.github.domwood.kiwi.kafka.provision;
 
 import com.github.domwood.kiwi.kafka.configs.KafkaConfigManager;
 import com.github.domwood.kiwi.kafka.resources.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -21,6 +19,10 @@ public class KafkaResourceProvider {
         return new KafkaConsumerResource<>(configManager.generateConsumerConfig(clusterName));
     }
 
+    public KafkaAvroConsumerResource kafkaAvroConsumerResource(Optional<String> clusterName) {
+        return new KafkaAvroConsumerResource(configManager.generateConsumerConfig(clusterName));
+    }
+
     public KafkaProducerResource<String, String> kafkaStringProducerResource(Optional<String> clusterName) {
         return new KafkaProducerResource<>(configManager.generateProducerConfig(clusterName));
     }
@@ -36,6 +38,12 @@ public class KafkaResourceProvider {
     public KafkaResourcePair<KafkaAdminResource, KafkaConsumerResource<String, String>> kafkaAdminAndConsumer(Optional<String> clusterName) {
         KafkaAdminResource admin = this.kafkaAdminResource(clusterName);
         KafkaConsumerResource<String, String> consumer = kafkaStringConsumerResource(clusterName);
+        return new KafkaResourcePair<>(admin, consumer);
+    }
+
+    public KafkaResourcePair<KafkaAdminResource, KafkaAvroConsumerResource> kafkaAdminAndAvroConsumer(Optional<String> clusterName) {
+        KafkaAdminResource admin = this.kafkaAdminResource(clusterName);
+        KafkaAvroConsumerResource consumer = kafkaAvroConsumerResource(clusterName);
         return new KafkaResourcePair<>(admin, consumer);
     }
 
